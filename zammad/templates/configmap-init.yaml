@@ -34,3 +34,10 @@ data:
         echo "${AUTOWIZARD_JSON}" | base64 -d > auto_wizard.json
     fi
     chown -R "${ZAMMAD_USER}":"${ZAMMAD_USER}" "${ZAMMAD_DIR}"
+  fqdn-init: |-
+    #!/bin/bash
+    set -ex
+    {{- if and .Values.fqdn.http_type .Values.fqdn.fqdn }}
+    bundle exec rails r 'Setting.set("http_type", "https")'
+    bundle exec rails r 'Setting.set("fqdn", "tk.suyuncdn.com")'
+    {{ end }}

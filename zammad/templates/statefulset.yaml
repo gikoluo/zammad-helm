@@ -73,6 +73,24 @@ spec:
           mountPath: /docker-entrypoint.sh
           readOnly: true
           subPath: elasticsearch-init
+      - name: fqdn-init
+        image: {{ .Values.image.repository }}:{{if eq .Values.image.repository "zammad/zammad-docker-compose"}}zammad-{{ end }}{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        securityContext:
+          runAsUser: 1000
+          runAsGroup: 1000
+        env:
+        {{- range $key, $value := .Values.extraEnv }}
+        - name: "{{ $key }}"
+          value: "{{ $value }}"
+        {{- end }}
+        volumeMounts:
+        - name: {{ template "zammad.fullname" . }}
+          mountPath: /opt/zammad
+        - name: {{ template "zammad.fullname" . }}-init
+          mountPath: /docker-entrypoint.sh
+          readOnly: true
+          subPath: fqdn-init
       containers:
       - name: {{ .Chart.Name }}-nginx
         image: {{ .Values.image.repository }}:{{if eq .Values.image.repository "zammad/zammad-docker-compose"}}zammad-{{ end }}{{ .Values.image.tag }}

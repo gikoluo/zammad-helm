@@ -142,11 +142,7 @@ affinity: {}
 elasticsearch:
   enabled: true
   image: "zammad/zammad-docker-compose"
-<<<<<<< HEAD
   imageTag: "zammad-elasticsearch-3.3.0-24"
-=======
-  imageTag: "zammad-elasticsearch-3.3.0-19"
->>>>>>> 2b98f585b9c10ab294c8c030f6260d8f64402f60
   clusterName: zammad
   replicas: 1
   # Workaround to get helm test to work in GitHub action CI
@@ -198,3 +194,8 @@ postgresql:
   #   limits:
   #     cpu: 500m
   #     memory: 512Mi
+
+fqdn:
+  http_type: http
+  fqdn: zammad.example.com
+  
